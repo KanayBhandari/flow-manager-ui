@@ -11,10 +11,15 @@ on:
       - "package-lock.json"
       - "vite.config.ts"
       - ".env.production"
+      - ".github/workflows/frontend.yml"
 
 jobs:
   deploy-frontend:
     runs-on: ubuntu-latest
+
+    # 👇 Build-time environment variables for Vite
+    env:
+      VITE_API_BASE_URL: https://sk4dodvgyl.execute-api.ap-southeast-2.amazonaws.com
 
     steps:
       # 1️⃣ Get the repository code
@@ -32,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # 4️⃣ Build production assets
+      # 4️⃣ Build production assets (VITE_API_BASE_URL is injected here)
       - name: Build frontend
         run: npm run build
 
